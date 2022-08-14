@@ -1,11 +1,11 @@
 import axios from "axios";
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 
 export default class SearchPhotos {
     constructor() { 
         this.searchQuery = '';
         this.page = 1;
+        this.totalPage = 0;
     }
 
     search = async function () {
@@ -14,7 +14,8 @@ export default class SearchPhotos {
     const PARAMS = `image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`
     try {
         const photos = await axios.get(`${BASE_URL}?${USER_KEY}&q=${this.searchQuery}&${PARAMS}`);
-        if (!photos) { throw new Error; }
+        if (photos.data.totalHits === 0) { throw new Error; }
+        this.totalPage = Math.ceil(photos.data.totalHits / 40);
         this.page += 1;
         return photos;
     } catch (error) {
