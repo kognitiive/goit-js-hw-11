@@ -1,6 +1,6 @@
 export { makeMarkup }
 
-async function makeMarkup (photos) {
+async function makeMarkup(photos) {
     return cards = photos.data.hits.map((card) => {
         const { webformatURL, largeImageURL, tags, likes, views, comments, downloads } = card;
         return `<a class="gallery__item" href="${largeImageURL}">
